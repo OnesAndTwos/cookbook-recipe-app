@@ -1,7 +1,7 @@
 import {createStore, applyMiddleware} from "redux";
-import recipeApp from "./reducers/recipeApp";
+
+import reducers from "./reducers";
+
 import thunk from "redux-thunk";
 
-const configureStore = () => createStore(recipeApp, applyMiddleware(thunk));
-
-export default configureStore;
+export default () => createStore(reducers, applyMiddleware(thunk));
