@@ -4,11 +4,11 @@
   "private": true,
   "scripts": {
     "start": "npm run build:client && npm run start:server",
-    "start:server": "node ./bin/www",
+    "start:server": "node ./app.js",
     "build:client": "webpack",
     "watch": "concurrently --kill-others 'npm run watch:client' 'npm run watch:server'",
     "watch:client": "webpack --watch",
-    "watch:server": "nodemon ./bin/www"
+    "watch:server": "nodemon ./app.js"
   },
   "dependencies": {
     "body-parser": "~1.18.2",
@@ -18,7 +18,8 @@
     "fuse.js": "^3.2.0",
     "morgan": "~1.9.0",
     "react-router-dom": "^4.2.2",
-    "serve-favicon": "~2.4.5"
+    "serve-favicon": "~2.4.5",
+    "socket.io": "^2.0.4"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -34,6 +35,7 @@
     "react-router": "^4.2.0",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
+    "socket.io-client": "^2.0.4",
     "webpack": "^3.10.0"
   }
 }

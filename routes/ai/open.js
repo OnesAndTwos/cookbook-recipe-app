@@ -1,15 +1,14 @@
-const socket = require('../socket/server');
+const chatBuilder = require('./chatBuilder');
+const socket = require('../../socket');
 
 module.exports = (parameters) => {
 
+  socket.emit('OPEN_RECIPE_AT_POSITION', {
+    ordinal: parameters.ordinal
+  });
 
+  return chatBuilder.renderChat(
+    `Opening recipe at position ${parameters.ordinal}. Hope you like it`
+  );
 
-
-  socket.emit('recipe-event', { action: "OPEN_RECIPE", name: parameters.name });
-
-  return {
-    "speech": "Opening that for you now",
-    "displayText": "Opening that for you now",
-    "source": "cookbook"
-  }
 };

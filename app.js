@@ -1,9 +1,11 @@
-const express = require('express');
-const path = require('path');
 const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const express = require('express');
+const socket = require('./socket');
+const path = require('path');
+const http = require('http');
 
 const app = express();
 
@@ -24,4 +26,9 @@ app
   .use(require('./errors/not-found'))
   .use(require('./errors/error'));
 
-module.exports = app;
+var server = http.createServer(app);
+
+server.listen(process.env.PORT || '3000');
+socket.init(server);
+
+

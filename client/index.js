@@ -3,13 +3,12 @@ import ReactDOM from 'react-dom';
 
 import Root from './containers/Root';
 
-import createBrowserHistory from 'history/createBrowserHistory';
 import configureStore from './configureStore';
+import configureEvents from './configureEvents';
+
+import history from './getHistory';
 
 const store = configureStore();
-const history = createBrowserHistory();
-
-console.log(history);
-console.log(store);
+const events = configureEvents(store);
 
 ReactDOM.render(<Root store={store} history={history} />, document.getElementById('root'));

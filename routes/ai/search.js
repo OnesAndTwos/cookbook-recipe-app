@@ -1,6 +1,6 @@
 const chatBuilder = require('./chatBuilder');
 
-const socket = require('../socket');
+const socket = require('../../socket');
 const repository = require('../../repositories/recipeRepository');
 
 module.exports = (parameters) => {
@@ -9,7 +9,7 @@ module.exports = (parameters) => {
 
   socket.emit('SEARCH_RESULTS', {
     searchTerm: parameters.searchTerm,
-    searchResults: searchResults
+    searchResults
   });
 
   return chatBuilder.renderChat(
