@@ -10,8 +10,8 @@ export default ({ history, store }) => (
   <Provider store={store}>
     <Router history={history}>
       <Switch>
-        <Route exact path="/recipe/*" component={Recipe}/>
-        <Route exact path="/search" component={Search}/>
+        <Route exact path="/recipe/:id" component={Recipe}/>
+        <Route exact path="/search/:query" component={Search}/>
         <Route exact path="/" component={Index}/>
       </Switch>
     </Router>

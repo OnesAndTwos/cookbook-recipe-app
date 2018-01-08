@@ -12,18 +12,25 @@ export function openRecipeFromSearch({ordinal}) {
 
 export function openRecipe(recipe) {
   return (dispatch) => {
+
+    history.push(`/recipe/${recipe.id}`);
+
     dispatch({
       type: OPEN_RECIPE,
       recipe
     });
-    history.push(`/recipe/${recipe.id}`);
+
   };
 }
 
 export function showSearchResults({searchTerm, searchResults}) {
-  history.push('/search');
-  return {
-    type: SEARCH_RESULTS,
-    searchTerm, searchResults
-  }
+  return (dispatch) => {
+    history.push(`/search/${encodeURI(searchTerm)}`);
+
+    dispatch({
+      type: SEARCH_RESULTS,
+      searchTerm, searchResults
+    });
+
+  };
 }

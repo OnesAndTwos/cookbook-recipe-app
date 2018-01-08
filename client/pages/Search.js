@@ -4,10 +4,8 @@ import { withRouter } from 'react-router-dom'
 
 const mapStateToProps = (state, { match }) => {
   return {
-    searchResults: state.search.searchResults,
-    searchTerm: state.search.searchTerm
+    searchResults: state.search.results.get(match.params.query) || []
   }
-
 };
 
 const Recipe =  ({searchResults}) => (

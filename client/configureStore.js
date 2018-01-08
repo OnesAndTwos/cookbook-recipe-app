@@ -4,4 +4,6 @@ import reducers from "./reducers";
 
 import thunk from "redux-thunk";
 
-export default () => createStore(reducers, applyMiddleware(thunk));
+import { composeWithDevTools } from 'redux-devtools-extension';
+
+export default () => createStore(reducers, composeWithDevTools(applyMiddleware(thunk)));

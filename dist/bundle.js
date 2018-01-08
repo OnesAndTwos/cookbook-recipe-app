@@ -5410,11 +5410,13 @@ function openRecipeFromSearch(_ref) {
 
 function openRecipe(recipe) {
   return function (dispatch) {
+
+    _getHistory2.default.push('/recipe/' + recipe.id);
+
     dispatch({
       type: OPEN_RECIPE,
       recipe: recipe
     });
-    _getHistory2.default.push('/recipe/' + recipe.id);
   };
 }
 
@@ -5422,10 +5424,13 @@ function showSearchResults(_ref2) {
   var searchTerm = _ref2.searchTerm,
       searchResults = _ref2.searchResults;
 
-  _getHistory2.default.push('/search');
-  return {
-    type: SEARCH_RESULTS,
-    searchTerm: searchTerm, searchResults: searchResults
+  return function (dispatch) {
+    _getHistory2.default.push('/search/' + encodeURI(searchTerm));
+
+    dispatch({
+      type: SEARCH_RESULTS,
+      searchTerm: searchTerm, searchResults: searchResults
+    });
   };
 }
 
@@ -24417,8 +24422,8 @@ exports.default = function (_ref) {
       _react2.default.createElement(
         _reactRouterDom.Switch,
         null,
-        _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: "/recipe/*", component: _Recipe2.default }),
-        _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: "/search", component: _Search2.default }),
+        _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: "/recipe/:id", component: _Recipe2.default }),
+        _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: "/search/:query", component: _Search2.default }),
         _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: "/", component: _Index2.default })
       )
     )
@@ -28919,8 +28924,7 @@ var mapStateToProps = function mapStateToProps(state, _ref) {
   var match = _ref.match;
 
   return {
-    searchResults: state.search.searchResults,
-    searchTerm: state.search.searchTerm
+    searchResults: state.search.results.get(match.params.query) || []
   };
 };
 
@@ -28971,10 +28975,12 @@ var _reduxThunk = __webpack_require__(139);
 
 var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
+var _reduxDevtoolsExtension = __webpack_require__(163);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = function () {
-  return (0, _redux.createStore)(_reducers2.default, (0, _redux.applyMiddleware)(_reduxThunk2.default));
+  return (0, _redux.createStore)(_reducers2.default, (0, _reduxDevtoolsExtension.composeWithDevTools)((0, _redux.applyMiddleware)(_reduxThunk2.default)));
 };
 
 /***/ }),
@@ -28999,17 +29005,17 @@ var actions = _interopRequireWildcard(_actions);
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 var search = function search() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { searchTerm: '', searchResults: [] };
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { results: new Map(), currentSearch: null };
   var action = arguments[1];
 
 
   switch (action.type) {
 
     case actions.SEARCH_RESULTS:
-      return {
-        searchTerm: action.searchTerm,
-        searchResults: action.searchResults
-      };
+      return _extends({}, state, {
+        currentSearch: action.searchTerm,
+        results: new Map(state.results).set(action.searchTerm, action.searchResults)
+      });
     default:
       return state;
 
@@ -32216,6 +32222,33 @@ Backoff.prototype.setJitter = function(jitter){
   this.jitter = jitter;
 };
 
+
+
+/***/ }),
+/* 163 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var compose = __webpack_require__(23).compose;
+
+exports.__esModule = true;
+exports.composeWithDevTools = (
+  typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ :
+    function() {
+      if (arguments.length === 0) return undefined;
+      if (typeof arguments[0] === 'object') return compose;
+      return compose.apply(null, arguments);
+    }
+);
+
+exports.devToolsEnhancer = (
+  typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION__ ?
+    window.__REDUX_DEVTOOLS_EXTENSION__ :
+    function() { return function(noop) { return noop; } }
+);
 
 
 /***/ })

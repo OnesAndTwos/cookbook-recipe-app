@@ -2,14 +2,15 @@ import { combineReducers } from 'redux';
 
 import * as actions from './actions';
 
-const search = (state = { searchTerm: '', searchResults: [] }, action) => {
+const search = (state = { results: new Map(), currentSearch: null }, action) => {
 
   switch(action.type) {
 
     case actions.SEARCH_RESULTS:
       return {
-        searchTerm: action.searchTerm,
-        searchResults: action.searchResults
+        ...state,
+        currentSearch: action.searchTerm,
+        results: new Map(state.results).set(action.searchTerm, action.searchResults)
       };
     default:
       return state;
