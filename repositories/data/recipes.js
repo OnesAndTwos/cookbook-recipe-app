@@ -58,7 +58,7 @@ module.exports = [
     ]
   },
   {
-    "id": "bacon,-egg-and-spinach-salad-with-roasted-tomatoes",
+    "id": "bacon-egg-and-spinach-salad-with-roasted-tomatoes",
     "title": "Bacon, egg and spinach salad with roasted tomatoes",
     "timings": {
       "preparation": "less than 30 mins",
@@ -91,7 +91,7 @@ module.exports = [
     ]
   },
   {
-    "id": "bill's-spicy-sausage-pasta",
+    "id": "bills-spicy-sausage-pasta",
     "title": "Bill's spicy sausage pasta",
     "image": "https://ichef.bbci.co.uk/food/ic/food_16x9_832/recipes/billsspicysausageand_73069_16x9.jpg",
     "timings": {

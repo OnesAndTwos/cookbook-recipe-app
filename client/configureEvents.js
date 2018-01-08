@@ -11,20 +11,10 @@ const events = (store) => ({
 });
 
 export default function (store) {
-
-  console.log(`Wiring up the events`);
-
   const eventStore = events(store);
 
-  console.log(eventStore);
   for (let eventName in eventStore) {
-
-    console.log(`Wiring up to ${eventName}`);
-
     socket.on(eventName, event => {
-      console.log(`Received event ${eventName}`);
-      console.log(`Received event ${eventStore[eventName]}`);
-
       store.dispatch(eventStore[eventName](event));
     });
   }

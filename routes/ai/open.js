@@ -3,7 +3,7 @@ const socket = require('../../socket');
 
 module.exports = (parameters) => {
 
-  socket.emit('OPEN_RECIPE_AT_POSITION', {
+  socket.emit('OPEN_RECIPE_FROM_SEARCH', {
     ordinal: parameters.ordinal
   });
 

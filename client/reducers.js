@@ -19,17 +19,15 @@ const search = (state = { searchTerm: '', searchResults: [] }, action) => {
 };
 
 const recipe = (state = { currentRecipe: null }, action) => {
-
   switch(action.type) {
-
     case actions.OPEN_RECIPE:
       return {
+        ...state,
         currentRecipe: action.recipe
       };
     default:
       return state;
   }
-
 };
 
 export default combineReducers({
