@@ -8,7 +8,7 @@ const mapStateToProps = (state, { match }) => {
   }
 };
 
-const Recipe =  ({searchResults}) => (
+const Search =  ({searchResults}) => (
   <div>
     <h2>Hello Search</h2>
 
@@ -25,4 +25,4 @@ const Recipe =  ({searchResults}) => (
 
 export default withRouter(connect(
   mapStateToProps
-)(Recipe));
+)(Search));

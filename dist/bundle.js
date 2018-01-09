@@ -5403,7 +5403,9 @@ function openRecipeFromSearch(_ref) {
   var ordinal = _ref.ordinal;
 
   return function (dispatch, getState) {
-    var recipe = getState().search.searchResults[ordinal - 1];
+    var search = getState().search;
+    var recipe = search.results.get(search.currentSearch)[ordinal - 1];
+
     dispatch(openRecipe(recipe));
   };
 }
@@ -5411,12 +5413,12 @@ function openRecipeFromSearch(_ref) {
 function openRecipe(recipe) {
   return function (dispatch) {
 
-    _getHistory2.default.push('/recipe/' + recipe.id);
-
     dispatch({
       type: OPEN_RECIPE,
       recipe: recipe
     });
+
+    _getHistory2.default.push('/recipe/' + encodeURI(recipe.id));
   };
 }
 
@@ -5425,12 +5427,13 @@ function showSearchResults(_ref2) {
       searchResults = _ref2.searchResults;
 
   return function (dispatch) {
-    _getHistory2.default.push('/search/' + encodeURI(searchTerm));
 
     dispatch({
       type: SEARCH_RESULTS,
       searchTerm: searchTerm, searchResults: searchResults
     });
+
+    _getHistory2.default.push('/search/' + encodeURI(searchTerm));
   };
 }
 
@@ -28843,15 +28846,10 @@ var _reactRouterDom = __webpack_require__(25);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var NULL_RECIPE = {
-  id: '',
-  title: ''
-};
-
 var mapStateToProps = function mapStateToProps(state, _ref) {
   var match = _ref.match;
 
-  return { recipe: state.recipe.currentRecipe };
+  return { recipe: state.recipe.recipes.get(match.params.id) };
 };
 
 var Recipe = function Recipe(_ref2) {
@@ -28928,7 +28926,7 @@ var mapStateToProps = function mapStateToProps(state, _ref) {
   };
 };
 
-var Recipe = function Recipe(_ref2) {
+var Search = function Search(_ref2) {
   var searchResults = _ref2.searchResults;
   return _react2.default.createElement(
     'div',
@@ -28952,7 +28950,7 @@ var Recipe = function Recipe(_ref2) {
   );
 };
 
-exports.default = (0, _reactRouterDom.withRouter)((0, _reactRedux.connect)(mapStateToProps)(Recipe));
+exports.default = (0, _reactRouterDom.withRouter)((0, _reactRedux.connect)(mapStateToProps)(Search));
 
 /***/ }),
 /* 137 */
@@ -29023,16 +29021,20 @@ var search = function search() {
 };
 
 var recipe = function recipe() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { currentRecipe: null };
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { recipes: new Map(), currentRecipe: null };
   var action = arguments[1];
 
+
   switch (action.type) {
+
     case actions.OPEN_RECIPE:
       return _extends({}, state, {
-        currentRecipe: action.recipe
+        currentRecipe: action.recipe.id,
+        recipes: new Map(state.recipes).set(action.recipe.id, action.recipe)
       });
     default:
       return state;
+
   }
 };
 

@@ -2,14 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom'
 
-const NULL_RECIPE = {
-  id: '',
-  title: ''
-};
 
 const mapStateToProps = (state, { match }) => {
-  return { recipe: state.recipe.currentRecipe  }
-
+  return { recipe: state.recipe.recipes.get(match.params.id)  }
 };
 
 const Recipe =  ({recipe}) => (

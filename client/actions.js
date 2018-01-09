@@ -5,7 +5,9 @@ import history from './getHistory';
 
 export function openRecipeFromSearch({ordinal}) {
   return (dispatch, getState) => {
-    let recipe = getState().search.searchResults[ordinal - 1];
+    let search = getState().search;
+    let recipe = search.results.get(search.currentSearch)[ordinal - 1];
+
     dispatch(openRecipe(recipe));
   }
 }
@@ -13,24 +15,25 @@ export function openRecipeFromSearch({ordinal}) {
 export function openRecipe(recipe) {
   return (dispatch) => {
 
-    history.push(`/recipe/${recipe.id}`);
-
     dispatch({
       type: OPEN_RECIPE,
       recipe
     });
+
+    history.push(`/recipe/${encodeURI(recipe.id)}`);
 
   };
 }
 
 export function showSearchResults({searchTerm, searchResults}) {
   return (dispatch) => {
-    history.push(`/search/${encodeURI(searchTerm)}`);
 
     dispatch({
       type: SEARCH_RESULTS,
       searchTerm, searchResults
     });
+
+    history.push(`/search/${encodeURI(searchTerm)}`);
 
   };
 }

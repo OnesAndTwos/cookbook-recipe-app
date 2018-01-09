@@ -19,16 +19,21 @@ const search = (state = { results: new Map(), currentSearch: null }, action) => 
 
 };
 
-const recipe = (state = { currentRecipe: null }, action) => {
+const recipe = (state = { recipes: new Map(), currentRecipe: null }, action) => {
+
   switch(action.type) {
+
     case actions.OPEN_RECIPE:
       return {
         ...state,
-        currentRecipe: action.recipe
+        currentRecipe: action.recipe.id,
+        recipes: new Map(state.recipes).set(action.recipe.id, action.recipe),
       };
     default:
       return state;
+
   }
+
 };
 
 export default combineReducers({
